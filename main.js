@@ -69,7 +69,12 @@ function clearGrid() {
   const grid = document.querySelector("#grid");
   const cells = Array.from(grid.children);
   cells.forEach((cell) => {
-    cell.style.backgroundColor = SCREEN_COLOR;
+    cell.addEventListener("animationend", () => {
+      cell.classList.remove("clear-anim");
+      cell.style.backgroundColor = SCREEN_COLOR;
+    });
+    cell.classList.add("clear-anim");
+    // cell.style.backgroundColor = SCREEN_COLOR;
   });
 }
 

@@ -183,6 +183,16 @@ body {
   box-sizing: border-box;
 }
 
+.clear-anim {
+  animation: clear 1s linear;
+}
+
+@keyframes clear {
+  100% {
+    background-color: rgb(216, 216, 216);
+  }
+}
+
 h2,
 button,
 p,
