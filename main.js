@@ -8,6 +8,31 @@ function fillCell(cell, color = "#111111") {
   cell.style.backgroundColor = color;
 }
 
+function fillCellRandom(cell) {
+  cell.style.backgroundColor = getRandomColorString();
+}
+
+function getRandomNumber(min, max) {
+  return min + Math.floor(Math.random() * (max - min));
+}
+
+function getRandomColorString() {
+  let r = getRandomNumber(0, 256);
+  let g = getRandomNumber(0, 256);
+  let b = getRandomNumber(0, 256);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+// callback must always take cell as first parameter
+function changeCellCallback(callback, arg) {
+  let cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.onmouseenter = () => {
+      callback(cell, arg);
+    };
+  });
+}
+
 function createCells(grid, rows, columns) {
   grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
   grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
@@ -16,9 +41,18 @@ function createCells(grid, rows, columns) {
   for (let i = 0; i < cellCount; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
-    cell.onmouseenter = () => {
-      fillCell(cell);
-    };
+    let callback;
+    if (isPsychedelicActive()) {
+      callback = () => {
+        fillCellRandom(cell);
+      };
+    } else {
+      callback = () => {
+        let color = getCurrentColor();
+        fillCell(cell, color);
+      };
+    }
+    cell.onmouseenter = callback;
     grid.appendChild(cell);
   }
 }
@@ -53,6 +87,17 @@ function resizeGrid(rows, columns) {
   createCells(grid, rows, columns);
 }
 
+// Returns current color as a hex string
+function getCurrentColor() {
+  let colorPicker = document.querySelector("#color-picker");
+  return colorPicker.value;
+}
+
+function isPsychedelicActive() {
+  const psychedelic = document.querySelector("#psychedelic");
+  return psychedelic.checked;
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   setSliderText(ROWS, COLUMNS);
 });
@@ -78,11 +123,15 @@ sizeSlider.addEventListener("mouseup", () => {
 let colorPicker = document.querySelector("#color-picker");
 colorPicker.addEventListener("change", () => {
   let color = colorPicker.value;
-  console.log(color);
-  let cells = document.querySelectorAll(".cell");
-  cells.forEach((cell) => {
-    cell.onmouseenter = () => {
-      fillCell(cell, color);
-    };
-  });
+  changeCellCallback(fillCell, color);
+});
+
+const psychedelic = document.querySelector("#psychedelic");
+psychedelic.addEventListener("change", () => {
+  if (psychedelic.checked) {
+    changeCellCallback(fillCellRandom);
+  } else {
+    let color = getCurrentColor();
+    changeCellCallback(fillCell, color);
+  }
 });
