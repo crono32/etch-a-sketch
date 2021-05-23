@@ -19,8 +19,30 @@
   <body>
     <div id="container">
       <h2>Etch A Sketch</h2>
-      <button id="clear-btn">Clear</button>
       <div id="grid"></div>
+      <div id="buttons">
+        <button id="clear-btn">Clear</button>
+        <div id="sliders">
+          <p id="size-slider-text">Grid size:</p>
+          <input
+            type="range"
+            autocomplete="off"
+            min="1"
+            max="64"
+            value="16"
+            id="size-slider"
+          />
+        </div>
+        <label for="color-picker"
+          >Color
+          <input
+            type="color"
+            id="color-picker"
+            value="#111111"
+            autocomplete="off"
+          />
+        </label>
+      </div>
     </div>
 
     <script src="main.js"></script>
