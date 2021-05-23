@@ -62,6 +62,7 @@ function createGrid(width, height, rows, columns) {
   grid.style.width = `${width}px`;
   grid.style.height = `${height}px`;
   createCells(grid, rows, columns);
+  return grid;
 }
 
 function clearGrid() {
@@ -101,7 +102,13 @@ function isPsychedelicActive() {
 window.addEventListener("DOMContentLoaded", () => {
   setSliderText(ROWS, COLUMNS);
 });
-createGrid(WIDTH, HEIGHT, ROWS, COLUMNS);
+const grid = createGrid(WIDTH, HEIGHT, ROWS, COLUMNS);
+
+window.addEventListener("keydown", (e) => {
+  if (e.key.toLowerCase() === "backspace") {
+    clearGrid(grid);
+  }
+});
 
 const clearBtn = document.querySelector("#clear-btn");
 clearBtn.addEventListener("click", () => {
