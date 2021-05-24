@@ -74,7 +74,6 @@ function clearGrid() {
       cell.style.backgroundColor = SCREEN_COLOR;
     });
     cell.classList.add("clear-anim");
-    // cell.style.backgroundColor = SCREEN_COLOR;
   });
 }
 
@@ -102,6 +101,11 @@ function getCurrentColor() {
 function isPsychedelicActive() {
   const psychedelic = document.querySelector("#psychedelic");
   return psychedelic.checked;
+}
+
+function disablePsychedelic() {
+  const psychedelic = document.querySelector("#psychedelic");
+  psychedelic.checked = false;
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -132,10 +136,11 @@ sizeSlider.addEventListener("mouseup", () => {
   resizeGrid(newSize, newSize);
 });
 
-let colorPicker = document.querySelector("#color-picker");
+const colorPicker = document.querySelector("#color-picker");
 colorPicker.addEventListener("change", () => {
   let color = colorPicker.value;
   changeCellCallback(fillCell, color);
+  disablePsychedelic();
 });
 
 const psychedelic = document.querySelector("#psychedelic");

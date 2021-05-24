@@ -216,7 +216,10 @@ label {
   border: 1px solid black;
   border-radius: 5px;
   text-transform: uppercase;
-  box-shadow: 1px 1px 1px black;
+  /* box-shadow: 1px 1px 1px black; */
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
 }
 
 button:active {
